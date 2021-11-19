@@ -12,6 +12,14 @@ namespace ListImplementation
         static void Main(string[] args)
         {
             List list = new List(6);
+            list.Add(18);
+            list.Add(12);
+            list.Add(25);
+            list.Add(30);
+            list.Add(56);
+            bool isContains=list.Contains(25);
+            list.RemoveAt(3);
+
         }
     }
     public class List
@@ -156,9 +164,9 @@ namespace ListImplementation
             }
             return false;
         }
-        public void CopyTo(int[] array, int index)
+        public void CopyTo(int[] array)
         {
-            CopyTo(array, 0);
+            Array.Copy(_items,array, 0);
         }
 
         private void CopyTo(int index, int[] array, int arrayIndex, int count)
@@ -213,6 +221,32 @@ namespace ListImplementation
             _items[index] = item;
             _size++;
             _version++;
+        }
+        public void RemoveAt(int index)
+        {
+            if ((uint)index >= (uint)_size)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            Contract.EndContractBlock();
+            _size--;
+            if (index < _size)
+            {
+                Array.Copy(_items, index + 1, _items, index, _size - index);
+            }
+            _items[_size] = default(int);
+            _version++;
+        }
+        public bool Remove(int item)
+        {
+            int index = IndexOf(item);
+            if (index >= 0)
+            {
+                RemoveAt(index);
+                return true;
+            }
+
+            return false;
         }
     }
 }
