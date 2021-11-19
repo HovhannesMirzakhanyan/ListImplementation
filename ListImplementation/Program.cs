@@ -136,6 +136,39 @@ namespace ListImplementation
             }
             _version++;
         }
+
+        public bool Contains(int item)
+        {
+            if ((Object)item == null)
+            {
+                for (int i = 0; i < _size; i++)
+                    if ((Object)_items[i] == null)
+                        return true;
+                return false;
+            }
+            else
+            {
+
+                for (int i = 0; i < _size; i++)
+                {
+                    if (int.Equals(_items[i], item)) return true;
+                }
+            }
+            return false;
+        }
+        public void CopyTo(int[] array, int index)
+        {
+            CopyTo(array, 0);
+        }
+
+        private void CopyTo(int index, int[] array, int arrayIndex, int count)
+        {
+            if (_size - index < count)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            Array.Copy(_items, index, array, arrayIndex, count);
+        }
     }
 }
 
