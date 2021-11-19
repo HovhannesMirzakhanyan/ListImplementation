@@ -81,7 +81,7 @@ namespace ListImplementation
 
         public int this[int index]
         {
-            get 
+            get
             {
                 if ((uint)index > (uint)_size)
                 {
@@ -89,7 +89,7 @@ namespace ListImplementation
                 }
                 return _items[index];
             }
-            set 
+            set
             {
                 if ((uint)index > (uint)_size)
                 {
@@ -110,11 +110,31 @@ namespace ListImplementation
         {
             if (_items.Length < min)
             {
-                int newCapacity = _items.Length == 0 ? _defaultCapacity : _items.Length * 2;
-                if ((uint)newCapacity > 0X7FEFFFFF) newCapacity = 0X7FEFFFFF;
-                if (newCapacity < min) newCapacity = min;
+                int newCapacity = _items.Length;
+                if (_items.Length == 0)
+                {
+                    newCapacity = _defaultCapacity;
+                }
+                else
+                {
+                    newCapacity = _items.Length * 2;
+                }
+                if ((uint)newCapacity > 0X7FEFFFFF)
+                    newCapacity = 0X7FEFFFFF;
+                if (newCapacity < min)
+                    newCapacity = min;
                 Capacity = newCapacity;
             }
+        }
+
+        public void Clear()
+        {
+            if (_size > 0)
+            {
+                Array.Clear(_items, 0, _size);
+                _size = 0;
+            }
+            _version++;
         }
     }
 }
