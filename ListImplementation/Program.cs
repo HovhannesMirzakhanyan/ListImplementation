@@ -79,6 +79,43 @@ namespace ListImplementation
             }
         }
 
+        public int this[int index]
+        {
+            get 
+            {
+                if ((uint)index > (uint)_size)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+                return _items[index];
+            }
+            set 
+            {
+                if ((uint)index > (uint)_size)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+                _items[index] = value;
+                _version++;
+            }
+        }
+
+        public void Add(int item)
+        {
+            if (_size == _items.Length) EnsureCapacity(_size + 1);
+            _items[_size++] = item;
+            _version++;
+        }
+        private void EnsureCapacity(int min)
+        {
+            if (_items.Length < min)
+            {
+                int newCapacity = _items.Length == 0 ? _defaultCapacity : _items.Length * 2;
+                if ((uint)newCapacity > 0X7FEFFFFF) newCapacity = 0X7FEFFFFF;
+                if (newCapacity < min) newCapacity = min;
+                Capacity = newCapacity;
+            }
+        }
     }
 }
 
