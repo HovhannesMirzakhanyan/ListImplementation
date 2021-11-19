@@ -169,6 +169,51 @@ namespace ListImplementation
             }
             Array.Copy(_items, index, array, arrayIndex, count);
         }
+        public int IndexOf(int item)
+        {
+            Contract.Ensures(Contract.Result<int>() >= -1);
+            Contract.Ensures(Contract.Result<int>() < Count);
+            return Array.IndexOf(_items, item, 0, _size);
+        }
+        public int IndexOf(int item, int index)
+        {
+            if (index > _size)
+                throw new ArgumentOutOfRangeException();
+            Contract.Ensures(Contract.Result<int>() >= -1);
+            Contract.Ensures(Contract.Result<int>() < Count);
+            Contract.EndContractBlock();
+            return Array.IndexOf(_items, item, index, _size - index);
+        }
+
+        public int IndexOf(int item, int index, int count)
+        {
+            if (index > _size)
+                throw new ArgumentOutOfRangeException();
+
+            if (count < 0 || index > _size - count) throw new ArgumentOutOfRangeException();
+            Contract.Ensures(Contract.Result<int>() >= -1);
+            Contract.Ensures(Contract.Result<int>() < Count);
+            Contract.EndContractBlock();
+
+            return Array.IndexOf(_items, item, index, count);
+        }
+        public void Insert(int index, int item)
+        {
+
+            if ((uint)index > (uint)_size)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            if (_size == _items.Length) EnsureCapacity(_size + 1);
+            if (index < _size)
+            {
+                Array.Copy(_items, index, _items, index + 1, _size - index);
+            }
+            _items[index] = item;
+            _size++;
+            _version++;
+        }
     }
 }
 
