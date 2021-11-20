@@ -17,8 +17,11 @@ namespace ListImplementation
 
             foreach (string item in list)
             {
-                Console.WriteLine($"{list.IndexOf(item) + 1} day of week is {item}");
+                int index = list.IndexOf(item) + 1;
+                Console.WriteLine($"{index} day of week is {item}");
             }
+
+            list.Contains("Sunday");
         }
     }
 
@@ -145,7 +148,7 @@ namespace ListImplementation
             _version++;
         }
 
-        public bool Contains(int item)
+        public bool Contains(string item)
         {
             if ((Object)item == null)
             {
