@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections;
 using System.Diagnostics.Contracts;
 
 namespace ListImplementation
@@ -8,25 +8,31 @@ namespace ListImplementation
     {
         static void Main(string[] args)
         {
-            List list = new List(6);
-            list.Add(18);
-            list.Add(12);
-            list.Add(25);
-            list.Add(30);
-            list.Add(56);
-            bool isContains=list.Contains(25);
-            list.RemoveAt(3);
+            List list = new List(7);
+            string[] dayOfWeek = new string[7] {"Sunday","Monday","Thusday","Wednesday","Thursday","Friday","Saturday"};
+            for (int i = 0; i < dayOfWeek.Length; i++)
+            {
+                list.Add(dayOfWeek[i]);
+            }
+
+            foreach (string item in list)
+            {
+                Console.WriteLine(item);
+            }
+
+         
 
         }
     }
+
     public class List
     {
         private const int _defaultCapacity = 4;
-        private int[] _items;
+        private string[] _items;
         private int _size;
         private int _version;
 
-        static readonly int[] _emptyArray = new int[0];
+        static readonly string[] _emptyArray = new string[0];
         public List()
         {
             _items = _emptyArray;
@@ -38,7 +44,7 @@ namespace ListImplementation
             if (capacity == 0)
                 _items = _emptyArray;
             else
-                _items = new int[capacity];
+                _items = new string[capacity];
         }
         public int Capacity
         {
@@ -57,7 +63,7 @@ namespace ListImplementation
                 {
                     if (value > 0)
                     {
-                        int[] _newItems = new int[value];
+                        string[] _newItems = new string[value];
                         if (_size > 0)
                         {
                             Array.Copy(_items, 0, _newItems, 0, _size);
@@ -84,11 +90,11 @@ namespace ListImplementation
             }
         }
 
-        public int this[int index]
+        public string this[int index]
         {
             get
             {
-                if ((uint)index > (uint)_size)
+                if (index > _size)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -105,7 +111,7 @@ namespace ListImplementation
             }
         }
 
-        public void Add(int item)
+        public void Add(string item)
         {
             if (_size == _items.Length) EnsureCapacity(_size + 1);
             _items[_size++] = item;
@@ -163,7 +169,7 @@ namespace ListImplementation
         }
         public void CopyTo(int[] array)
         {
-            Array.Copy(_items,array, 0);
+            Array.Copy(_items, array, 0);
         }
 
         private void CopyTo(int index, int[] array, int arrayIndex, int count)
@@ -202,7 +208,7 @@ namespace ListImplementation
 
             return Array.IndexOf(_items, item, index, count);
         }
-        public void Insert(int index, int item)
+        public void Insert(int index, string item)
         {
 
             if ((uint)index > (uint)_size)
@@ -231,7 +237,7 @@ namespace ListImplementation
             {
                 Array.Copy(_items, index + 1, _items, index, _size - index);
             }
-            _items[_size] = default(int);
+            _items[_size] = default(string);
             _version++;
         }
         public bool Remove(int item)
@@ -244,6 +250,32 @@ namespace ListImplementation
             }
 
             return false;
+        }
+        public _ListEnumerator GetEnumerator()
+        {
+            return new _ListEnumerator(_items, _size);
+        }
+        public class _ListEnumerator
+        {
+            private string[] _items;
+            private int  _size;
+             private int _count;
+            public _ListEnumerator(string[] items, int size)
+            {
+                _items = items;
+                _size = size;
+            }
+            public object Current
+            {
+                get{
+                    return _items[_count++];
+                }
+            }
+            public bool MoveNext()
+            {
+                return _count < _size;
+            }
+
         }
     }
 }
