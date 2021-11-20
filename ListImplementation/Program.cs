@@ -9,7 +9,7 @@ namespace ListImplementation
         static void Main(string[] args)
         {
             List list = new List(7);
-            string[] dayOfWeek = new string[7] {"Sunday","Monday","Thusday","Wednesday","Thursday","Friday","Saturday"};
+            string[] dayOfWeek = new string[7] { "Sunday", "Monday", "Thusday", "Wednesday", "Thursday", "Friday", "Saturday" };
             for (int i = 0; i < dayOfWeek.Length; i++)
             {
                 list.Add(dayOfWeek[i]);
@@ -17,11 +17,8 @@ namespace ListImplementation
 
             foreach (string item in list)
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"{list.IndexOf(item) + 1} day of week is {item}");
             }
-
-         
-
         }
     }
 
@@ -180,7 +177,7 @@ namespace ListImplementation
             }
             Array.Copy(_items, index, array, arrayIndex, count);
         }
-        public int IndexOf(int item)
+        public int IndexOf(string item)
         {
             Contract.Ensures(Contract.Result<int>() >= -1);
             Contract.Ensures(Contract.Result<int>() < Count);
@@ -240,7 +237,7 @@ namespace ListImplementation
             _items[_size] = default(string);
             _version++;
         }
-        public bool Remove(int item)
+        public bool Remove(string item)
         {
             int index = IndexOf(item);
             if (index >= 0)
@@ -258,8 +255,8 @@ namespace ListImplementation
         public class _ListEnumerator
         {
             private string[] _items;
-            private int  _size;
-             private int _count;
+            private int _size;
+            private int _count;
             public _ListEnumerator(string[] items, int size)
             {
                 _items = items;
@@ -267,7 +264,8 @@ namespace ListImplementation
             }
             public object Current
             {
-                get{
+                get
+                {
                     return _items[_count++];
                 }
             }
